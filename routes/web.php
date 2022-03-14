@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\peminjamanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource("buku", BukuController::class);
+Route::resource("/anggota", anggotaController::class);
+
+Route::resource("/peminjaman", peminjamanController::class);
