@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\peminjamanController;
+use App\Http\Controllers\anggotaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +14,13 @@ use App\Http\Controllers\peminjamanController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::resource("buku", BukuController::class);
-Route::resource("/anggota", anggotaController::class);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::resource("/peminjaman", peminjamanController::class);
+Route::get('/anggota', [anggotaController::class, 'index']);
+Route::get('/createAnggota', [anggotaController::class, 'create']);
+Route::post('/store', [anggotaController::class, 'store']);
+Route::get('/edit/{id}', [anggotaController::class, 'edit']);
+Route::post('/update/{id}', [anggotaController::class, 'update']);
+Route::get('/delete/{id}', [anggotaController::class, 'destroy']);

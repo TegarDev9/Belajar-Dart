@@ -1,33 +1,46 @@
-@extends('anggota.layout')
+@extends('layout.default')
 @section('content')
- 
-<div class="card">
-  <div class="card-header">Halaman edit anggota</div>
-  <div class="card-body">
-      
-      <form action="{{ url('anggota' .$anggota->id_anggota) }}" method="post">
-        {!! csrf_field() !!}
-        @method("PATCH")
-        <input type="hidden" name="id" id="id" value="{{$anggota->id}}" id="id" />
-        <label>id_anggota</label></br>
-        <input type="number" name="id_anggota" id="id_anggota" value="{{$anggota->id_anggota}}" class="form-control"></br>
-        <label>nama</label></br>
-        <input type="text" name="nama" id="nama" value="{{$anggota->nama}}" class="form-control"></br>
-        <label>alamat</label></br>
-        <input type="text" name="alamat" id="alamat" value="{{$anggota->alamat}}" class="form-control"></br>
-        <label>jenis_kelamin</label></br>
-        <input type="text" name="jenis_kelamin" id="jenis_kelamin" value="{{$anggota->jenis_kelamin}}" class="form-control"></br>
-         <label>no_hp</label></br>
-        <input type="text" name="no_hp" id="no_hp" value="{{$anggota->no_hp}}" class="form-control"></br>
-        <label>umur</label></br>
-        <input type="text" name="umur" id="umur" value="{{$anggota->umur}}" class="form-control"></br>
+<section>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="mb-4">Edit Anggota</h3>
+                <form action="{{ url('/update/' . $data->id_anggota ) }}" method="POST">
+                    @csrf
+                    <div class="form-group mb-2">
+                        <label for="">Nama Anggota</label>
+                        <input type="text" name="nama_anggota" class="form-control" placeholder="Masukkan Nama" value="{{$data->nama_anggota}}">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" placeholder="Masukkan Nama" value="{{$data->alamat}}">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Jenis Kelamin</label>
+                        <select class="form-select" aria-label="Default select example" name="jenis_kelamin">
+                            @if ($data->jenis_kelamin = 'laki-laki')
+                            <option>Jenis Kelamin</option>
+                            <option value="Laki-Laki" selected>Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                            @elseif ($data->jenis_kelamin = 'perempuan' )
+                            <option>Jenis Kelamin</option>
+                            <option value="Laki-Laki">Laki-laki</option>
+                            <option value="Perempuan" selected>Perempuan</option>
+                            @endif>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">No HP</label>
+                        <input type="text" name="no_hp" class="form-control" placeholder="Masukkan No Hp" value="{{$data->no_hp}}">
+                    </div>
 
-        
-    
-        <input type="submit" value="Update" class="btn btn-success"></br>
-    </form>
-   
-  </div>
-</div>
- 
-@stop
+                    <div class="form-group mt-3">
+                        <button class="btn btn-primary">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@endsection

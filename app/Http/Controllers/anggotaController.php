@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\anggota;
 use Illuminate\Http\Request;
+use App\Models\M_anggota;
 
 class anggotaController extends Controller
 {
@@ -14,9 +14,10 @@ class anggotaController extends Controller
      */
     public function index()
     {
-         $anggota = anggota::all();
-        return view ('anggota.index')->with('anggota', $anggota);
-        
+        $data = M_anggota::all();
+        return view('anggota.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -26,7 +27,7 @@ class anggotaController extends Controller
      */
     public function create()
     {
-         return view('anggota.create');
+        return view('anggota.createAnggota');
     }
 
     /**
@@ -37,9 +38,9 @@ class anggotaController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        anggota::create($input);
-        return redirect('anggota')->with('flash_message', 'anggota Addedd!'); 
+        $data = $request->except(['_token']);
+        M_anggota::insert($data);
+        return redirect('/anggota');
     }
 
     /**
@@ -50,8 +51,7 @@ class anggotaController extends Controller
      */
     public function show($id)
     {
-         $anggota = anggota::find($id);
-        return view('anggota.show')->with('anggota', $anggota);
+        //
     }
 
     /**
@@ -62,8 +62,11 @@ class anggotaController extends Controller
      */
     public function edit($id)
     {
-          $anggota = anggota::find($id);
-        return view('anggota.edit')->with('anggota', $anggota);
+
+        $data = M_anggota::findOrFail($id);
+        return view('anggota.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -75,10 +78,10 @@ class anggotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-          $anggota = anggota::find($id);
-        $input = $request->all();
-        $anggota->update($input);
-        return redirect('anggota')->with('flash_message', 'anggota Updated!');  
+        $item = M_anggota::findOrFail($id);
+        $data = $request->except(['_token']);
+        $item->update($data);
+        return redirect('/anggota');
     }
 
     /**
@@ -89,7 +92,8 @@ class anggotaController extends Controller
      */
     public function destroy($id)
     {
-          anggota::destroy($id);
-        return redirect('anggota')->with('flash_message', 'anggota deleted!'); 
+        $item = M_anggota::findOrFail($id);
+        $item->delete();
+        return redirect('/anggota');
     }
 }
