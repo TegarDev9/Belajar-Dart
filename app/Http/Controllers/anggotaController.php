@@ -62,7 +62,6 @@ class anggotaController extends Controller
      */
     public function edit($id)
     {
-
         $data = M_anggota::findOrFail($id);
         return view('anggota.edit')->with([
             'data' => $data

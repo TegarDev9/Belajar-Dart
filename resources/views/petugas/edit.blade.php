@@ -4,16 +4,12 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-lg-8">
-                <h3 class="mb-4">Edit Anggota</h3>
-                <form action="{{ url('/updateanggota/' . $data->id_anggota ) }}" method="POST">
+                <h3 class="mb-4">Edit Petugas</h3>
+                <form action="{{ url('/updatepetugas/' . $data->id_petugas ) }}" method="POST">
                     @csrf
                     <div class="form-group mb-2">
-                        <label for="">Nama Anggota</label>
-                        <input type="text" name="nama_anggota" class="form-control" placeholder="Masukkan Nama" value="{{$data->nama_anggota}}">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="">Alamat</label>
-                        <input type="text" name="alamat" class="form-control" placeholder="Masukkan Nama" value="{{$data->alamat}}">
+                        <label for="">Nama Petugas</label>
+                        <input type="text" name="nama_petugas" class=" form-control" placeholder="Masukkan Nama" value="{{$data->nama_petugas}}">
                     </div>
                     <div class="form-group mb-2">
                         <label for="">Jenis Kelamin</label>
@@ -28,6 +24,10 @@
                             <option value="Perempuan" selected>Perempuan</option>
                             @endif>
                         </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" placeholder="Masukkan Nama" value="{{$data->alamat}}">
                     </div>
                     <div class="form-group mb-2">
                         <label for="">No HP</label>

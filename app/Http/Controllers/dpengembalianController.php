@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\M_dpengembalian;
+use App\Models\M_pengembalian;
 
 class dpengembalianController extends Controller
 {
@@ -13,7 +15,10 @@ class dpengembalianController extends Controller
      */
     public function index()
     {
-        //
+        $data = M_dpengembalian::all();
+        return view('detail_kembali.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -23,7 +28,7 @@ class dpengembalianController extends Controller
      */
     public function create()
     {
-        //
+        return view('detail_kembali.create');
     }
 
     /**
@@ -34,7 +39,9 @@ class dpengembalianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+        M_dpengembalian::insert($data);
+        return redirect('/dpengembalian');
     }
 
     /**
@@ -56,7 +63,10 @@ class dpengembalianController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = M_pengembalian::findOrFail($id);
+        return view('detail_kembali.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**

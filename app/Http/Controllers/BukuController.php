@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_buku;
 use Illuminate\Http\Request;
 
 class bukuController extends Controller
@@ -13,7 +14,10 @@ class bukuController extends Controller
      */
     public function index()
     {
-        //
+        $data = M_buku::all();
+        return view('buku.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class bukuController extends Controller
      */
     public function create()
     {
-        //
+        return view('buku.create');
     }
 
     /**
@@ -34,7 +38,9 @@ class bukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+        M_buku::insert($data);
+        return redirect('/buku');
     }
 
     /**
@@ -56,7 +62,10 @@ class bukuController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = M_buku::findOrFail($id);
+        return view('buku.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -68,7 +77,10 @@ class bukuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = M_buku::findOrFail($id);
+        $data = $request->except(['_token']);
+        $item->update($data);
+        return redirect('/buku');
     }
 
     /**

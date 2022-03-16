@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class M_dpeminjaman extends Model
 {
     public $timestamps = false;
-    protected $table = 'anggota';
-    protected $primaryKey = 'id_anggota';
-    protected $fillable = ['nama_anggota', 'alamat', 'jenis_kelamin', 'no_hp'];
+    protected $table = 'detail_peminjaman';
+    protected $primaryKey = 'id_d_pinjam';
+    protected $fillable = ['id_buku', 'id_pinjam'];
 }

@@ -17,7 +17,7 @@ class CreateAnggota extends Migration
             $table->bigIncrements('id_anggota');
             $table->string('nama_anggota', 50);
             $table->longText('alamat');
-            $table->string('jenis_kelamin', 10);
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
             $table->string('no_hp', 15);
         });
     }

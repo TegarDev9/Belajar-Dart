@@ -14,12 +14,16 @@ class CreateBuku extends Migration
     public function up()
     {
         Schema::create('buku', function (Blueprint $table) {
-            $table->id('id_buku');
-            $table->string('nama_buku');
-            $table->string('penerbit');
-            $table->string('pengarang');
-            $table->string('tahun_terbit');
-            $table->string('no_rak');
+            $table->bigIncrements('id_buku');
+            $table->string('nama_buku', 100);
+            $table->string('kategori_buku', 100);
+            $table->string('penerbit', 100);
+            $table->string('pengarang', 100);
+            $table->string('jumlah_hal', 100);
+            $table->string('tahun_terbit', 100);
+            $table->string('no_rak', 50);
+            $table->string('stok', 50);
+            $table->enum('status', ['Dipinjam', 'Dikembalikan']);
         });
     }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\M_dpeminjaman;
+use App\Models\M_peminjaman;
 
 class dpeminjamanController extends Controller
 {
@@ -13,7 +15,10 @@ class dpeminjamanController extends Controller
      */
     public function index()
     {
-        //
+        $data = M_dpeminjaman::all();
+        return view('detail_pinjam.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -23,7 +28,7 @@ class dpeminjamanController extends Controller
      */
     public function create()
     {
-        //
+        return view('detail_pinjam.create');
     }
 
     /**
@@ -34,7 +39,9 @@ class dpeminjamanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+        M_dpeminjaman::insert($data);
+        return redirect('/dpeminjaman');
     }
 
     /**
@@ -56,7 +63,10 @@ class dpeminjamanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = M_peminjaman::findOrFail($id);
+        return view('detail_pinjam.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**

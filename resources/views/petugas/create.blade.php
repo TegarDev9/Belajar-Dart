@@ -4,16 +4,12 @@
     <div class="container mt-3">
         <div class="row">
             <div class="col-lg-8">
-                <h3 class="mb-4">Tambah Anggota</h3>
-                <form action="{{ url('/storeanggota') }}" method="POST">
+                <h3 class="mb-4">Tambah Petugas</h3>
+                <form action="{{ url('/storepetugas') }}" method="POST">
                     @csrf
                     <div class="form-group mb-2">
-                        <label for="">Nama Anggota</label>
-                        <input type="text" name="nama_anggota" class="form-control" placeholder="Masukkan Nama">
-                    </div>
-                    <div class="form-group mb-2">
-                        <label for="">Alamat</label>
-                        <input type="text" name="alamat" class="form-control" placeholder="Masukkan Nama">
+                        <label for="">Nama Petugas</label>
+                        <input type="text" name="nama_petugas" class="form-control" placeholder="Masukkan Nama">
                     </div>
                     <div class="form-group mb-2">
                         <label for="">Jenis Kelamin</label>
@@ -22,6 +18,10 @@
                             <option value="Laki-Laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" placeholder="Masukkan Nama">
                     </div>
                     <div class="form-group mb-2">
                         <label for="">No HP</label>

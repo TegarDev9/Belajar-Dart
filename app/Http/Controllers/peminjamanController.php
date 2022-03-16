@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_peminjaman;
 use Illuminate\Http\Request;
 
 class peminjamanController extends Controller
@@ -13,7 +14,10 @@ class peminjamanController extends Controller
      */
     public function index()
     {
-        //
+        $data = M_peminjaman::all();
+        return view('peminjaman.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class peminjamanController extends Controller
      */
     public function create()
     {
-        //
+        return view('peminjaman.create');
     }
 
     /**
@@ -34,7 +38,9 @@ class peminjamanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+        M_peminjaman::insert($data);
+        return redirect('/peminjaman');
     }
 
     /**
@@ -56,7 +62,10 @@ class peminjamanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = M_peminjaman::findOrFail($id);
+        return view('peminjaman.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -68,7 +77,10 @@ class peminjamanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = M_peminjaman::findOrFail($id);
+        $data = $request->except(['_token']);
+        $item->update($data);
+        return redirect('/peminjaman');
     }
 
     /**
@@ -79,6 +91,8 @@ class peminjamanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = M_peminjaman::findOrFail($id);
+        $item->delete();
+        return redirect('/peminjaman');
     }
 }

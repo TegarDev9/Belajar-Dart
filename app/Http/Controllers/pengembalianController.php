@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_pengembalian;
 use Illuminate\Http\Request;
 
 class pengembalianController extends Controller
@@ -13,7 +14,10 @@ class pengembalianController extends Controller
      */
     public function index()
     {
-        //
+        $data = M_pengembalian::all();
+        return view('pengembalian.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class pengembalianController extends Controller
      */
     public function create()
     {
-        //
+        return view('pengembalian.create');
     }
 
     /**
@@ -34,7 +38,9 @@ class pengembalianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+        M_pengembalian::insert($data);
+        return redirect('/pengembalian');
     }
 
     /**
@@ -56,7 +62,10 @@ class pengembalianController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = M_pengembalian::findOrFail($id);
+        return view('pengembalian.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -68,7 +77,10 @@ class pengembalianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = M_pengembalian::findOrFail($id);
+        $data = $request->except(['_token']);
+        $item->update($data);
+        return redirect('/pengembalian');
     }
 
     /**
@@ -79,6 +91,8 @@ class pengembalianController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = M_pengembalian::findOrFail($id);
+        $item->delete();
+        return redirect('/pengembalian');
     }
 }

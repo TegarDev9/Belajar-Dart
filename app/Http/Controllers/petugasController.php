@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\M_petugas;
 
 class petugasController extends Controller
 {
@@ -13,7 +14,10 @@ class petugasController extends Controller
      */
     public function index()
     {
-        //
+        $data = M_petugas::all();
+        return view('petugas.index')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class petugasController extends Controller
      */
     public function create()
     {
-        //
+        return view('petugas.create');
     }
 
     /**
@@ -34,7 +38,9 @@ class petugasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except(['_token']);
+        M_petugas::insert($data);
+        return redirect('/petugas');
     }
 
     /**
@@ -56,7 +62,10 @@ class petugasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = M_petugas::findOrFail($id);
+        return view('petugas.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -68,7 +77,10 @@ class petugasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = M_petugas::findOrFail($id);
+        $data = $request->except(['_token']);
+        $item->update($data);
+        return redirect('/petugas');
     }
 
     /**
@@ -79,6 +91,8 @@ class petugasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = M_petugas::findOrFail($id);
+        $item->delete();
+        return redirect('/petugas');
     }
 }

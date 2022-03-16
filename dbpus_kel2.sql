@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2022 at 01:05 AM
+-- Generation Time: Mar 16, 2022 at 03:54 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -31,18 +31,9 @@ CREATE TABLE `anggota` (
   `id_anggota` bigint(20) UNSIGNED NOT NULL,
   `nama_anggota` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `alamat` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jenis_kelamin` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jenis_kelamin` enum('laki-laki','perempuan') COLLATE utf8mb4_unicode_ci NOT NULL,
   `no_hp` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `anggota`
---
-
-INSERT INTO `anggota` (`id_anggota`, `nama_anggota`, `alamat`, `jenis_kelamin`, `no_hp`) VALUES
-(1, 'dinda', 'Jember', 'Perempuan', '098777'),
-(3, 'dinda', 'jember', 'Perempuan', '098777'),
-(4, 'rangga', 'probolinggo', 'Laki-Laki', '098777');
 
 -- --------------------------------------------------------
 
@@ -52,12 +43,23 @@ INSERT INTO `anggota` (`id_anggota`, `nama_anggota`, `alamat`, `jenis_kelamin`, 
 
 CREATE TABLE `buku` (
   `id_buku` bigint(20) UNSIGNED NOT NULL,
-  `nama_buku` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `penerbit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pengarang` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tahun_terbit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_rak` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nama_buku` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kategori_buku` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `penerbit` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pengarang` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jumlah_hal` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tahun_terbit` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_rak` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stok` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('Dipinjam','Dikembalikan') COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `buku`
+--
+
+INSERT INTO `buku` (`id_buku`, `nama_buku`, `kategori_buku`, `penerbit`, `pengarang`, `jumlah_hal`, `tahun_terbit`, `no_rak`, `stok`, `status`) VALUES
+(1, 'asas', 'sasa', 'sasa', 'asa', 'asa', 'asa', 'asa', 'sasa', 'Dikembalikan');
 
 -- --------------------------------------------------------
 
@@ -67,8 +69,8 @@ CREATE TABLE `buku` (
 
 CREATE TABLE `detail_kembalian` (
   `id_d_kembalian` bigint(20) UNSIGNED NOT NULL,
-  `id_buku` bigint(20) NOT NULL,
-  `id_kembali` bigint(20) NOT NULL
+  `id_buku` bigint(20) UNSIGNED NOT NULL,
+  `id_kembali` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -79,8 +81,8 @@ CREATE TABLE `detail_kembalian` (
 
 CREATE TABLE `detail_peminjaman` (
   `id_d_peminjaman` bigint(20) UNSIGNED NOT NULL,
-  `id_buku` bigint(20) NOT NULL,
-  `id_pinjam` bigint(20) NOT NULL
+  `id_buku` bigint(20) UNSIGNED NOT NULL,
+  `id_pinjam` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -121,12 +123,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2022_03_08_012935_create_anggota', 1),
-(6, '2022_03_08_014139_create__t_kembali', 1),
-(7, '2022_03_08_014337_create__t_pinjam', 1),
-(8, '2022_03_08_014359_create_petugas', 1),
-(9, '2022_03_08_020610_create_detail_peminjaman', 1),
-(10, '2022_03_08_020712_create_detail_kembalian', 1),
-(11, '2022_03_08_020807_create_buku', 1);
+(6, '2022_03_08_014359_create_petugas', 1),
+(7, '2022_03_08_020807_create_buku', 1),
+(8, '2022_03_16_071801_create__t_kembali', 1),
+(9, '2022_03_16_071917_create__t_pinjam', 1),
+(10, '2022_03_16_072017_create_detail_peminjaman', 1),
+(11, '2022_03_16_072056_create_detail_pengembalian', 1);
 
 -- --------------------------------------------------------
 
@@ -167,11 +169,17 @@ CREATE TABLE `personal_access_tokens` (
 CREATE TABLE `petugas` (
   `id_petugas` bigint(20) UNSIGNED NOT NULL,
   `nama_petugas` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_telp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `jenis_kelamin` enum('laki-laki','perempuan') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_hp` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `petugas`
+--
+
+INSERT INTO `petugas` (`id_petugas`, `nama_petugas`, `jenis_kelamin`, `alamat`, `no_hp`) VALUES
+(1, 'yusril', 'perempuan', 'bondowoso', '098777');
 
 -- --------------------------------------------------------
 
@@ -181,11 +189,18 @@ CREATE TABLE `petugas` (
 
 CREATE TABLE `t_kembali` (
   `id_kembali` bigint(20) UNSIGNED NOT NULL,
-  `id_petugas` bigint(20) NOT NULL,
-  `id_anggota` bigint(20) NOT NULL,
+  `id_petugas` bigint(20) UNSIGNED NOT NULL,
+  `id_anggota` bigint(20) UNSIGNED NOT NULL,
   `tgl_kembali` date NOT NULL,
-  `denda` date NOT NULL
+  `denda` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `t_kembali`
+--
+
+INSERT INTO `t_kembali` (`id_kembali`, `id_petugas`, `id_anggota`, `tgl_kembali`, `denda`) VALUES
+(1, 1, 1, '2022-03-16', '3000');
 
 -- --------------------------------------------------------
 
@@ -194,12 +209,19 @@ CREATE TABLE `t_kembali` (
 --
 
 CREATE TABLE `t_pinjam` (
-  `id_peminjaman` bigint(20) UNSIGNED NOT NULL,
-  `id_petugas` bigint(20) NOT NULL,
-  `id_anggota` bigint(20) NOT NULL,
-  `tgl_kembali` date NOT NULL,
-  `denda` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `id_pinjam` bigint(20) UNSIGNED NOT NULL,
+  `id_petugas` bigint(20) UNSIGNED NOT NULL,
+  `id_anggota` bigint(20) UNSIGNED NOT NULL,
+  `tgl_pinjam` date NOT NULL,
+  `tgl_kembali` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `t_pinjam`
+--
+
+INSERT INTO `t_pinjam` (`id_pinjam`, `id_petugas`, `id_anggota`, `tgl_pinjam`, `tgl_kembali`) VALUES
+(1, 1, 1, '2022-03-16', '2022-03-29');
 
 -- --------------------------------------------------------
 
@@ -289,7 +311,7 @@ ALTER TABLE `t_kembali`
 -- Indexes for table `t_pinjam`
 --
 ALTER TABLE `t_pinjam`
-  ADD PRIMARY KEY (`id_peminjaman`);
+  ADD PRIMARY KEY (`id_pinjam`);
 
 --
 -- Indexes for table `users`
@@ -306,13 +328,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `anggota`
 --
 ALTER TABLE `anggota`
-  MODIFY `id_anggota` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_anggota` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id_buku` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_buku` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `detail_kembalian`
@@ -348,19 +370,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `id_petugas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_petugas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `t_kembali`
 --
 ALTER TABLE `t_kembali`
-  MODIFY `id_kembali` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kembali` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `t_pinjam`
 --
 ALTER TABLE `t_pinjam`
-  MODIFY `id_peminjaman` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pinjam` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

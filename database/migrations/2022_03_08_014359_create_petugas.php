@@ -14,12 +14,11 @@ class CreatePetugas extends Migration
     public function up()
     {
         Schema::create('petugas', function (Blueprint $table) {
-            $table->id('id_petugas');
+            $table->bigIncrements('id_petugas');
             $table->string('nama_petugas');
-            $table->string('alamat');
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
+            $table->longText('alamat');
             $table->string('no_telp');
-
-            $table->timestamps();
         });
     }
 

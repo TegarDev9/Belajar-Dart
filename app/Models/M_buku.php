@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class M_buku extends Model
 {
     public $timestamps = false;
-    protected $table = 'anggota';
-    protected $primaryKey = 'id_anggota';
-    protected $fillable = ['nama_anggota', 'alamat', 'jenis_kelamin', 'no_hp'];
+    protected $table = 'buku';
+    protected $primaryKey = 'id_buku';
+    protected $fillable = ['nama_buku', 'kategori_buku', 'penerbit', 'pengerang', 'jumlah_hal', 'tahun_terbit', 'no_rak', 'stok', 'status'];
 }
